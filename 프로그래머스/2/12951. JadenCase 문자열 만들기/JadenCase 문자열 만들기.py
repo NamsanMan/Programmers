@@ -1,15 +1,17 @@
 def solution(s):
     answer = ''
-    alphabet = "abcdefghijklmnopqrstuvwxyz"
-    s_list = s.split(" ")
-
-    for i in range(len(s_list)):
-        s_list[i] = s_list[i].lower()
-
-    for i in range(len(s_list)):
-        if s_list[i] != "" and s_list[i][0] in alphabet:
-            s_list[i] = s_list[i][0].upper() + s_list[i][1:]
-
-    answer = " ".join(s_list)
-
+    is_first_letter = True
+    for i in range(len(s)):
+        if s[i] == " ":
+            answer += " "
+            is_first_letter = True
+        else:
+            if is_first_letter == True:
+                answer += s[i].upper()
+                is_first_letter = False
+            else:
+                answer += s[i].lower()
+                
+                
+        
     return answer
