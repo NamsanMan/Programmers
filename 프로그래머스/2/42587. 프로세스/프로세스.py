@@ -25,6 +25,5 @@ def solution(priorities, location):
             if now[1] == True:
                 return answer
                 
-    
-    print(queue)
+
     return answer
