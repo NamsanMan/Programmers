@@ -1,29 +1,25 @@
 from collections import deque
 def solution(x, y, n):
-    queue = deque()
-    queue.append((x, 0))
-    visited = [False] * (y + 1)
-    visited[x] = True
-    while queue:
-        current_num, calculations = queue.popleft()
-        if current_num == y:
-            return calculations
-        plus = current_num + n
-        times2 = current_num * 2
-        times3 = current_num * 3
-
-        if plus <= y and visited[plus] == False:
-            visited[plus] = True
-            queue.append((plus, calculations + 1))
-            
+    current = x
+    visited = [False] * y
+    visited[current - 1] = True
+    q = deque([(current, 0)])
+    while q:
+        c, cnt = q.popleft()
+        if c == y:
+            return cnt
         
-        if times2 <= y and visited[times2] == False:
-            visited[times2] = True
-            queue.append((times2, calculations + 1))
-            
-            
-        if times3 <= y and visited[times3] == False:
-            visited[times3] = True
-            queue.append((times3, calculations + 1))
+        n1 = c + n
+        n2 = c * 2
+        n3 = c * 3
+        if n1 <= y and visited[n1 - 1] == False:
+            visited[n1 - 1] = True
+            q.append((n1, cnt + 1))
+        if n2 <= y and visited[n2 - 1] == False:
+            visited[n2 - 1] = True
+            q.append((n2, cnt + 1))
+        if n3 <= y and visited[n3 - 1] == False:
+            visited[n3 - 1] = True
+            q.append((n3, cnt + 1))
     
     return -1
