@@ -1,42 +1,20 @@
 from collections import deque
-
 def solution(maps):
-    n = len(maps)
-    m = len(maps[0])
-    
-    queue = deque()
-    queue.append([0, 0, 1])
-    
-    visited = []
-    for i in range(n):
-        row = [False] * m
-        visited.append(row)
-        
-    visited[0][0] = True
-    
-    dh = [0, 0, 1, -1]
-    dw = [1, -1, 0, 0]
-    
+    answer = 0
+    H, W = len(maps), len(maps[0])
+    dist = [[0] * W for _ in range(H)]
+    start = (0, 0)
+    dist[0][0] = 1
+    queue = deque([start])
     while queue:
-        h, w, count = queue.popleft()
-        
-        if h == n - 1 and w == m - 1:
-            return count
-        
-        for i in range(4):
-            next_h = h + dh[i]
-            next_w = w + dw[i]
-            
-            if next_h < 0 or next_h >= n:
-                continue
-            if next_w < 0 or next_w >= m:
-                continue
-            if maps[next_h][next_w] == 0:
-                continue
-            if visited[next_h][next_w] == True:
-                continue
-                
-            visited[next_h][next_w] = True
-            queue.append([next_h, next_w, count + 1])
-        
-    return -1
+        r, c = queue.popleft()
+        for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+            nr, nc = r + dr, c + dc
+            if 0 <= nr < H and 0 <= nc < W and maps[nr][nc] == 1 and dist[nr][nc] == 0:
+                dist[nr][nc] = dist[r][c] + 1
+                queue.append((nr, nc))
+    
+    if dist[H - 1][W - 1] == 0:
+        return -1
+    else:
+        return dist[H - 1][W - 1]
